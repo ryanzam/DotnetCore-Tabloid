@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Journal.API", "Journal.API\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Journal.Repository", "Journal.Repo\Journal.Repository.csproj", "{8F0F87C3-AD12-423C-AE11-4FC6B4F37C58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Journal.Model", "Journal.Integration\Journal.Model.csproj", "{E6DCA2B1-1817-44E8-93AE-5C3BBAA59DCB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Journal.Model", "Journal.Integration\Journal.Model.csproj", "{E6DCA2B1-1817-44E8-93AE-5C3BBAA59DCB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Journal.Web", "Journal.Web\Journal.Web.csproj", "{7FFAA0E1-63D7-4775-9983-7344B95263EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{E6DCA2B1-1817-44E8-93AE-5C3BBAA59DCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6DCA2B1-1817-44E8-93AE-5C3BBAA59DCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6DCA2B1-1817-44E8-93AE-5C3BBAA59DCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FFAA0E1-63D7-4775-9983-7344B95263EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FFAA0E1-63D7-4775-9983-7344B95263EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FFAA0E1-63D7-4775-9983-7344B95263EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FFAA0E1-63D7-4775-9983-7344B95263EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
