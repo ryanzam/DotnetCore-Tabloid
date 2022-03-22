@@ -9,7 +9,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Journal.Repository", "Journ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Journal.Model", "Journal.Integration\Journal.Model.csproj", "{E6DCA2B1-1817-44E8-93AE-5C3BBAA59DCB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Journal.Web", "Journal.Web\Journal.Web.csproj", "{7FFAA0E1-63D7-4775-9983-7344B95263EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Journal.Web", "Journal.Web\Journal.Web.csproj", "{7FFAA0E1-63D7-4775-9983-7344B95263EA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{AE466DBC-3209-413F-B823-CB00AB1D5A6F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{54F24A1C-FAF9-447A-A8F0-2D67E0CEB2A1}"
+	ProjectSection(SolutionItems) = preProject
+		pipeline.yml = pipeline.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +43,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{54F24A1C-FAF9-447A-A8F0-2D67E0CEB2A1} = {AE466DBC-3209-413F-B823-CB00AB1D5A6F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {788ED1FB-7E43-4279-BE51-33875DB0481E}
