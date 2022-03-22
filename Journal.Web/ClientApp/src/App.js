@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { Route } from 'react-router';
 import { Layout } from './components/Layout';
 import { Home } from './components/Home';
-import { FetchData } from './components/CreateJournal';
-import { Counter } from './components/Journal';
+import CreateJournal from './components/CreateJournal';
+import Journal from './components/Journal'
+import Details from './components/Details';
+
 
 import './custom.css'
 
@@ -14,8 +16,9 @@ export default class App extends Component {
     return (
       <Layout>
         <Route exact path='/' component={Home} />
-        <Route path='/journal' component={Counter} />
-        <Route path='/create' component={FetchData} />
+            <Route path='/journal' component={Journal} />
+            <Route path='/details/:id' component={Details} />
+            <Route path='/create' component={CreateJournal} />
       </Layout>
     );
   }

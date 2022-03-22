@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Loader from '../Util/Loader'
+import { Journal, Book } from 'react-bootstrap-icons';
 
 export class Home extends Component {
   static displayName = Home.name;
@@ -18,7 +20,7 @@ export class Home extends Component {
             <>
                 <div className="bg-dark text-secondary">
                     <div className="py-5">
-                        <h1 className="display-5 text-center text-white">WebJournal [Tabloid]</h1>
+                        <h1 className="display-5 text-center text-white"><Journal />Journal</h1>
                         <div className="col-lg-6 mx-auto">
                             <p className="fs-5 ">Share your thoughts and Knowledge, Learn different perspective!</p>
                             <div className="d-grid gap-2 d-sm-flex justify-content-sm-center">
@@ -30,8 +32,7 @@ export class Home extends Component {
                 </div>
 
                 {this.state.loading
-                    ? <p><em>Loading...</em></p>
-                    :
+                    ? <Loader /> :
                     <div className="row mt-3">
                         {this.state.posts?.map(p => { 
                             return (<div className="col-md-4 card text-white bg-secondary" key={p.id}>
@@ -39,7 +40,7 @@ export class Home extends Component {
                                 <div className="card-body">
                                     <h4 className="card-title">{p.subTitle}</h4>
                                     <p className="card-text">Post on : {p.createdOn}</p>
-                                    <p><a className="btn btn-secondary" href="#" role="button">Read Details »</a></p>
+                                    <p><a className="btn btn-secondary" href="#" role="button">Read Details <Book /></a></p>
                                 </div>
                                 <p></p>
                             </div>)

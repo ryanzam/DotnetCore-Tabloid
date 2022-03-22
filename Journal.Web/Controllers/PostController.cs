@@ -36,5 +36,20 @@ namespace Journal.Web.Controllers
             }
             return posts;
         }
+
+        [HttpGet("{id}")]
+        public async Task<PostModel> GetPostById(int id)
+        {
+            var post = new PostModel();
+            using (var httpClient = new HttpClient())
+            {
+                using (var res = await httpClient.GetAsync("https://localhost:44395/api/Post/"+id))
+                {
+                    string apiRes = await res.Content.ReadAsStringAsync();
+                    post = JsonConvert.DeserializeObject<PostModel>(apiRes);
+                }
+            }
+            return post;
+        }
     }
 }
