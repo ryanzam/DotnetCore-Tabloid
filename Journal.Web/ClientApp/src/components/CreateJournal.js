@@ -1,59 +1,49 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 
-export class FetchData extends Component {
-  static displayName = FetchData.name;
+const CreateJournal = () => {
 
-  constructor(props) {
-    super(props);
-    this.state = { forecasts: [], loading: true };
-  }
+    const [category, setCategory] = useState([]);
 
-  componentDidMount() {
-    this.populateWeatherData();
-  }
+    useEffect(() => {
+        async function getCategories() {
+            const res = await fetch('categories')
+            const cat = await res.json()
+            setCategory(cat)
+        } getCategories()
+    }, [])
 
-  static renderForecastsTable(forecasts) {
-    return (
-      <table className='table table-striped' aria-labelledby="tabelLabel">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
-          </tr>
-        </thead>
-        <tbody>
-          {forecasts.map(forecast =>
-            <tr key={forecast.date}>
-              <td>{forecast.date}</td>
-              <td>{forecast.temperatureC}</td>
-              <td>{forecast.temperatureF}</td>
-              <td>{forecast.summary}</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    );
-  }
-
-  render() {
-    let contents = this.state.loading
-      ? <p><em>Loading...</em></p>
-      : FetchData.renderForecastsTable(this.state.forecasts);
-
-    return (
-      <div>
-        <h1 id="tabelLabel" >Weather forecast</h1>
-        <p>This component demonstrates fetching data from the server.</p>
-        {contents}
-      </div>
-    );
-  }
-
-  async populateWeatherData() {
-    const response = await fetch('weatherforecast');
-    const data = await response.json();
-    this.setState({ forecasts: data, loading: false });
-  }
+    return <>
+        <form>
+            <fieldset>
+                <div className="form-group">
+                    <label htmlFor="title" className="form-label mt-3">Title</label>
+                    <input type="text" className="form-control" id="title" aria-describedby="titleHelp" placeholder="Enter Title" />
+                    <small id="titleHelp" className="form-text text-muted">Your journal title.</small>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="stitle" className="form-label mt-3">Sub-Title</label>
+                    <input type="text" className="form-control" id="title" aria-describedby="stitleHelp" placeholder="Enter sub-title" />
+                    <small id="stitleHelp" className="form-text text-muted">Your journal title.</small>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="des" className="form-label mt-3">Description</label>
+                    <textarea className="form-control" id="des" rows="5"></textarea>
+                    <small id="desHelp" className="form-text text-muted">Journal details..</small>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="cat" className="form-label mt-3">Select category</label>
+                    <select multiple="" className="form-select" id="cat">
+                        {category?.map(c => {
+                            return <option>{c.title}</option>
+                        })} 
+                    </select>
+                </div>
+                <div className="form-group">
+                    <button type="submit" className="btn btn-primary mt-3">Submit</button>
+                </div>
+            </fieldset>
+        </form>
+        </>
 }
+
+export default CreateJournal

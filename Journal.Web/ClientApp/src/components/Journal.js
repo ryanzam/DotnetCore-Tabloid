@@ -1,31 +1,67 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
+import Loader from '../Util/Loader'
+import { Bookmark, Book } from 'react-bootstrap-icons';
 
-export class Counter extends Component {
-  static displayName = Counter.name;
+const Journal = () => {
 
-  constructor(props) {
-    super(props);
-    this.state = { currentCount: 0 };
-    this.incrementCounter = this.incrementCounter.bind(this);
-  }
+    const [journals, setJournals] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-  incrementCounter() {
-    this.setState({
-      currentCount: this.state.currentCount + 1
-    });
-  }
+    useEffect(() => {
+        async function getJournals() {
+            setLoading(true)
+            const response = await fetch('post')
+            const posts = await response.json()
+            setJournals(posts)
+            setLoading(false)
+        }
+        getJournals()
+    },[])
 
-  render() {
-    return (
-      <div>
-        <h1>Counter</h1>
-
-        <p>This is a simple example of a React component.</p>
-
-        <p aria-live="polite">Current count: <strong>{this.state.currentCount}</strong></p>
-
-        <button className="btn btn-primary" onClick={this.incrementCounter}>Increment</button>
-      </div>
-    );
-  }
+    return <>
+        {loading && <Loader />}
+        {journals.map(j => { 
+        return <div className="card mb-1">
+            <div className="card-header">
+                <Bookmark /> {j.title}
+            </div>
+            <div className="card-body">
+                <h5 className="card-title">{j.title}</h5>
+                <p className="card-text">{j.subTitle}</p>
+                <a href={ `/details/${j.id}`} className="btn btn-primary">Read <Book /></a>
+            </div>
+            </div>
+        })}
+        {<Pagination />}
+        </>
 }
+
+const Pagination = () => {
+    return <div>
+        <ul className="pagination">
+            <li className="page-item disabled">
+                <a className="page-link" href="#">&laquo;</a>
+            </li>
+            <li className="page-item active">
+                <a className="page-link" href="#">1</a>
+            </li>
+            <li className="page-item">
+                <a className="page-link" href="#">2</a>
+            </li>
+            <li className="page-item">
+                <a className="page-link" href="#">3</a>
+            </li>
+            <li className="page-item">
+                <a className="page-link" href="#">4</a>
+            </li>
+            <li className="page-item">
+                <a className="page-link" href="#">5</a>
+            </li>
+            <li className="page-item">
+                <a className="page-link" href="#">&raquo;</a>
+            </li>
+        </ul>
+    </div>
+}
+
+export default Journal
