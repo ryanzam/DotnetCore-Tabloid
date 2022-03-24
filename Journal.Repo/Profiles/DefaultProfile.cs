@@ -7,11 +7,12 @@ namespace Journal.Repository.Model
     {
         public DefaultProfile()
         {
-            CreateMap<PostModel, Post>()
-                .ForMember(m => m.CategoriesPost, opt => opt.Ignore())
-                .ForMember(m => m.Comments, opt => opt.Ignore())
-                .ReverseMap();
+            CreateMap<PostModel, Post>().ReverseMap();
             CreateMap<CategoryModel, Category>().ReverseMap();
+            CreateMap<CategoriesPost, CategoryModel>()
+                .ForMember(m => m.Title, opt => opt.MapFrom(p => p.Category.Title))
+                .ReverseMap();
+
             CreateMap<CommentModel, Comment>().ReverseMap();
         }
     }

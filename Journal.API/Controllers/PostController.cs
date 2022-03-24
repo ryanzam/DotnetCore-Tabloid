@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Journal.Model;
 using Journal.Repository.Model;
+using Journal.Repository.Services.Categories;
 using Journal.Repository.Services.Posts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,12 +16,15 @@ namespace Journal.API.Controllers
     public class PostController : ControllerBase
     {
         private readonly IPostService _repository;
+        private readonly ICategoryService _categoryService;
+
         private readonly IMapper _mapper;
 
-        public PostController(IPostService repository, IMapper mapper)
+        public PostController(IPostService repository, IMapper mapper, ICategoryService categoryService)
         {
             _repository = repository;
             _mapper = mapper;
+            _categoryService = categoryService;
         }
 
         [HttpGet]
@@ -36,16 +40,35 @@ namespace Journal.API.Controllers
             var post = await _repository.GetByIdAsync(id);
             if(post != null)
             {
+                var cats = await _categoryService.GetByIdAsync(post.CategoryId);
+                
+                var catPost = new CategoriesPost();
+                var categoriesPost = new List<CategoriesPost>();
+
+                catPost.Category = cats;
+                categoriesPost.Add(catPost);
+
+                post.CategoriesPost = categoriesPost;
+
                 return Ok(_mapper.Map<PostModel>(post));
             }
             return NotFound();
         }
 
         [HttpPost]
-        public async Task<ActionResult<PostModel>> CreatePost([FromBody] PostModel postModel)
+        public async Task<ActionResult<PostModel>> CreatePost([FromBody] PostModel newPost)
         {
-            var p =  _mapper.Map<Post>(postModel);
-            await _repository.CreateAsync(p);
+            var post =  _mapper.Map<Post>(newPost);
+            post.CategoriesPost = new List<CategoriesPost>();
+            foreach(var cat in newPost.CategoriesPost)
+            {
+                post.CategoriesPost.Add(new CategoriesPost()
+                {
+                    CategoryId = cat.Id,
+                    Post = post
+                });
+            }
+            await _repository.CreateAsync(post);
 
             return Ok();
         }

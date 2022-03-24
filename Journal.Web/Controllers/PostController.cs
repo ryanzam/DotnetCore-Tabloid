@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Journal.Model;
 using Journal.Model.Query;
@@ -46,6 +47,23 @@ namespace Journal.Web.Controllers
                 using (var res = await httpClient.GetAsync("https://localhost:44395/api/Post/"+id))
                 {
                     string apiRes = await res.Content.ReadAsStringAsync();
+                    post = JsonConvert.DeserializeObject<PostModel>(apiRes);
+                }
+            }
+            return post;
+        }
+
+        [HttpPost]
+        public async Task<PostModel> CreateItemAsync(PostModel newPost)
+        {
+            var post = new PostModel();
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(newPost), Encoding.UTF8, "application/json");
+
+                using (var response = await httpClient.PostAsync("https://localhost:44395/api/Post", content))
+                {
+                    string apiRes = await response.Content.ReadAsStringAsync();
                     post = JsonConvert.DeserializeObject<PostModel>(apiRes);
                 }
             }

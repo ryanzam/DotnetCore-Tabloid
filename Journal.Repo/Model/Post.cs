@@ -12,6 +12,8 @@ namespace Journal.Repository.Model
         
         public string Description { get; set; }
         public List<Comment> Comments { get; set; }
+        public int CategoryId { get; set; }
+
         public List<CategoriesPost> CategoriesPost { get; set; }
     }
 }
