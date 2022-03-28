@@ -10,6 +10,11 @@ using Journal.Repository.Model;
 using Journal.Repository.Services.Posts;
 using Journal.Repository.Services.Categories;
 using Journal.Repository.Services.Comments;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Journal.Repository.Services.Users;
+using Journal.Repository.Services.AuthServices;
 
 namespace Journal.API
 {
@@ -25,6 +30,8 @@ namespace Journal.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddCors();
+
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
@@ -35,11 +42,30 @@ namespace Journal.API
                     Version = "version 1.0.0",
                 });
             });
-            services.AddDbContext<JournalContext>(options => options.UseSqlServer(Configuration.GetConnectionString("JournalConnStr")));
+            services.AddDbContext<JournalContext>(options => options.UseSqlServer(Configuration.GetConnectionString("JournalConnStr"), b => b.MigrationsAssembly("Journal.API")));
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+               .AddJwtBearer(options =>
+               {
+                   options.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       ValidateIssuer = false,
+                       ValidateAudience = false,
+                       ValidateLifetime = true,
+                       ValidateIssuerSigningKey = true,
+
+                       IssuerSigningKey = new SymmetricSecurityKey(
+                           Encoding.UTF8.GetBytes(Configuration.GetValue<string>("JWTSecretKey"))
+                       )
+                   };
+               });
+
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ICommentService, CommentService>();
+
+            services.AddSingleton(new AuthService(Configuration.GetValue<int>("JWTLifeSpan"), Configuration.GetValue<string>("JWTSecret")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +75,13 @@ namespace Journal.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+          //  app.UseCors(builder => builder
+          //    .AllowAnyOrigin()
+          //    .AllowAnyMethod()
+          //    .AllowAnyHeader()
+          //    .AllowCredentials()
+          //);
 
             app.UseHttpsRedirection();
 

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Journal.Model;
 using Journal.Repository.Model;
+using Journal.Repository.Services.Categories;
 using Journal.Repository.Services.Posts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,12 +16,15 @@ namespace Journal.API.Controllers
     public class PostController : ControllerBase
     {
         private readonly IPostService _repository;
+        private readonly ICategoryService _categoryService;
+
         private readonly IMapper _mapper;
 
-        public PostController(IPostService repository, IMapper mapper)
+        public PostController(IPostService repository, IMapper mapper, ICategoryService categoryService)
         {
             _repository = repository;
             _mapper = mapper;
+            _categoryService = categoryService;
         }
 
         [HttpGet]
@@ -36,16 +40,21 @@ namespace Journal.API.Controllers
             var post = await _repository.GetByIdAsync(id);
             if(post != null)
             {
+                //var cat = await _categoryService.GetByIdAsync(post.CategoryId);
+
+                //post.Category = cat;
+
                 return Ok(_mapper.Map<PostModel>(post));
             }
             return NotFound();
         }
 
         [HttpPost]
-        public async Task<ActionResult<PostModel>> CreatePost([FromBody] PostModel postModel)
+        public async Task<ActionResult<PostModel>> CreatePost([FromBody] PostModel newPost)
         {
-            var p =  _mapper.Map<Post>(postModel);
-            await _repository.CreateAsync(p);
+            var post =  _mapper.Map<Post>(newPost);
+       
+            await _repository.CreateAsync(post);
 
             return Ok();
         }

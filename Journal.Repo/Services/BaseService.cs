@@ -9,7 +9,7 @@ namespace Journal.Repository.Services
 {
     public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : BaseEntity
     {
-        private readonly JournalContext _context;
+        protected readonly JournalContext _context;
         public BaseService(JournalContext context)
         {
             _context = context;

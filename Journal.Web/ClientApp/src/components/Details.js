@@ -1,6 +1,6 @@
 ﻿import React, { useEffect, useState } from 'react'
 import Loader from '../Util/Loader'
-import { ChatQuote, SignpostFill } from 'react-bootstrap-icons'
+import { ChatQuote, SignpostFill, Tag } from 'react-bootstrap-icons'
 
 const Details = (props) => {
 
@@ -29,13 +29,14 @@ const Details = (props) => {
                 </figure>
                 <p className="lead">{journal.description}</p>
                 <small className="text-muted"><SignpostFill /> {journal.createdOn.split("T")[0]}</small>
-
-                <div>
+                <hr />
+                <div className="mt-2">
+                    <Tag size={30} />
                     {journal.categoriesPost.map(cp => {
                         return <span className="badge bg-primary">{cp.title}</span>
                     })}
                 </div>
-
+                <hr />
                 <div>
                     {journal.comments.map(cmt => {
                         return <div className="alert alert-dismissible alert-light">
