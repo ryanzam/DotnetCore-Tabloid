@@ -9,10 +9,6 @@ namespace Journal.Repository.Model
         {
             CreateMap<PostModel, Post>().ReverseMap();
             CreateMap<CategoryModel, Category>().ReverseMap();
-            CreateMap<CategoriesPost, CategoryModel>()
-                .ForMember(m => m.Title, opt => opt.MapFrom(p => p.Category.Title))
-                .ReverseMap();
-
             CreateMap<CommentModel, Comment>().ReverseMap();
         }
     }

@@ -9,7 +9,6 @@ namespace Journal.Model
 
         public string Description { get; set; }
         public List<CommentModel> Comments { get; set; }
-        public int CategoryId { get; set; }
-        public List<CategoryModel> CategoriesPost { get; set; }
+        public CategoryModel Category { get; set; }
     }
 }

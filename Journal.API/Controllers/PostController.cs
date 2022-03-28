@@ -40,15 +40,9 @@ namespace Journal.API.Controllers
             var post = await _repository.GetByIdAsync(id);
             if(post != null)
             {
-                var cats = await _categoryService.GetByIdAsync(post.CategoryId);
-                
-                var catPost = new CategoriesPost();
-                var categoriesPost = new List<CategoriesPost>();
+                //var cat = await _categoryService.GetByIdAsync(post.CategoryId);
 
-                catPost.Category = cats;
-                categoriesPost.Add(catPost);
-
-                post.CategoriesPost = categoriesPost;
+                //post.Category = cat;
 
                 return Ok(_mapper.Map<PostModel>(post));
             }
@@ -59,15 +53,7 @@ namespace Journal.API.Controllers
         public async Task<ActionResult<PostModel>> CreatePost([FromBody] PostModel newPost)
         {
             var post =  _mapper.Map<Post>(newPost);
-            post.CategoriesPost = new List<CategoriesPost>();
-            foreach(var cat in newPost.CategoriesPost)
-            {
-                post.CategoriesPost.Add(new CategoriesPost()
-                {
-                    CategoryId = cat.Id,
-                    Post = post
-                });
-            }
+       
             await _repository.CreateAsync(post);
 
             return Ok();
