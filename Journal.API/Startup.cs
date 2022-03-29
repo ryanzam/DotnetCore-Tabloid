@@ -65,7 +65,7 @@ namespace Journal.API
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ICommentService, CommentService>();
 
-            services.AddSingleton(new AuthService(Configuration.GetValue<int>("JWTLifeSpan"), Configuration.GetValue<string>("JWTSecret")));
+            services.AddSingleton(new AuthService(Configuration.GetValue<int>("JWTLifeSpan"), Configuration.GetValue<string>("JWTSecretKey")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

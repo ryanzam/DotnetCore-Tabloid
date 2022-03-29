@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './NavMenu.css'
-import { House, Journals, FilePlus, Journal } from 'react-bootstrap-icons';
+import { House, Journals, FilePlus, Journal, BoxArrowRight } from 'react-bootstrap-icons';
 
 export class NavMenu extends Component {
   static displayName = NavMenu.name;
@@ -39,6 +39,9 @@ export class NavMenu extends Component {
                 </NavItem>
                 <NavItem>
                   <NavLink tag={Link} to="/create"><FilePlus /> Create Journal</NavLink>
+                </NavItem>
+                    <NavItem>
+                        <NavLink tag={Link} to="/signout"><BoxArrowRight /> Sign out</NavLink>
                 </NavItem>
               </ul>
             </Collapse>
