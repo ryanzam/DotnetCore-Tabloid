@@ -10,8 +10,8 @@ const Login = (props) => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [emailError, setEmailError] = useState(null)
-    const [pwdError, setPwdError] = useState(null)
+    const [error, setError] = useState(null)
+
     //useEffect(() => {
     //    async function getCategories() {
     //        const res = await fetch('auth/login')
@@ -33,11 +33,11 @@ const Login = (props) => {
 
             const response = await fetch('auth/login', requestOptions)
                 .then(data => data.json())
-            props.setToken(response)
+            if (!response.token) setError("Incorrect Email/Password!")
+           props.setToken(response)
 
         } catch (e) {
-            setEmailError(e.Email)
-            setPwdError(e.Password)
+            setError(e)
             console.error(e)
         }
     }
@@ -66,18 +66,13 @@ const Login = (props) => {
         </div>
     }
 
+    const disabled = (email.length > 0 && password.length > 0) ? "" : "disabled"
+
     return <div className="d-flex justify-content-center mt-5">
         <form onSubmit={handleSubmit} className="text-center p-3">
             <h1 className="display-5 text-white"><Journal /></h1>
             <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
-            {emailError &&
-                <ul>
-                {emailError.map(e => <li>{e}</li>)}
-                </ul>}
-            {pwdError &&
-                <ul>
-                    {pwdError.map(e => <li>{e}</li>)}
-                </ul>}
+            {error && <li className="text-danger pb-2">{error}</li>}
             <div className="form-floating">
                 <input type="email" className="form-control" id="floatingInput" placeholder="name@example.com" onChange={handleEmailChange} />
             <label for="floatingInput">Email address</label>
@@ -87,7 +82,7 @@ const Login = (props) => {
             <label for="floatingPassword">Password</label>
             </div>
 
-            <button className="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+            <button className={"w-100 btn btn-lg btn-primary " + disabled} type="submit">Sign in</button>
         </form>
     </div>
 }
