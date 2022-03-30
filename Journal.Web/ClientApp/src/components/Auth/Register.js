@@ -2,7 +2,7 @@
 //import Notification from '../Util/Notification'
 import { Journal } from 'react-bootstrap-icons'
 
-const Login = (props) => {
+const Register = (props) => {
 
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
@@ -64,4 +64,4 @@ const Login = (props) => {
     </div>
 }
 
-export default Login
+export default Register
